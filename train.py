@@ -192,8 +192,9 @@ def train(csv_train=None, csv_classes=None, csv_val=None, epochs=12, depth=50):
 
 csv_train = "/home/jdmaestre/PycharmProjects/Pneumonia_dataset_synthetic/synthetic_train_set_dummy.csv"
 csv_train = "/home/jdmaestre/PycharmProjects/Pneumonia_dataset_synthetic/synthetic_train_set.csv"
+csv_train = "/home/jdmaestre/PycharmProjects/Pneumonia_dataset/stage_2_train_labels.csv"
 csv_classes = "/home/jdmaestre/PycharmProjects/Pneumonia_dataset/class_map.csv"
-epochs = 12
+epochs = 20
 depth = 50
 
 train(csv_train, csv_classes, epochs=epochs, depth=depth)
