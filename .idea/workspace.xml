@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ee72647d-f2b4-4a5f-bc23-c50fa4cdb993" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataloader.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,8 +16,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="658">
-              <caret line="196" column="11" selection-start-line="196" selection-start-column="11" selection-end-line="196" selection-end-column="11" />
+            <state relative-caret-position="136">
+              <caret line="57" column="65" selection-start-line="57" selection-start-column="65" selection-end-line="57" selection-end-column="65" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -25,11 +25,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="328">
-              <caret line="122" column="39" selection-start-line="122" selection-start-column="39" selection-end-line="122" selection-end-column="39" />
+            <state relative-caret-position="570">
+              <caret line="154" column="27" selection-start-line="154" selection-start-column="27" selection-end-line="154" selection-end-column="27" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -37,11 +37,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dataloader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="466" lean-forward="true" selection-start-line="466" selection-end-line="466" />
+            <state relative-caret-position="224">
+              <caret line="619" column="32" selection-start-line="619" selection-start-column="32" selection-end-line="619" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -134,9 +134,9 @@
         <option value="$PROJECT_DIR$/pneumonia/test_csv.py" />
         <option value="$PROJECT_DIR$/pneumonia/create_test_csv.py" />
         <option value="$PROJECT_DIR$/visualize.py" />
-        <option value="$PROJECT_DIR$/dataloader.py" />
-        <option value="$PROJECT_DIR$/train.py" />
         <option value="$PROJECT_DIR$/model.py" />
+        <option value="$PROJECT_DIR$/train.py" />
+        <option value="$PROJECT_DIR$/dataloader.py" />
       </list>
     </option>
   </component>
@@ -315,11 +315,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.train" />
         <item itemvalue="Python.visualize" />
         <item itemvalue="Python.create_test_csv" />
         <item itemvalue="Python tests.pytest in create_test_csv.py" />
         <item itemvalue="Python.predict_loader" />
-        <item itemvalue="Python.train" />
       </list>
     </recent_temporary>
   </component>
@@ -354,12 +354,12 @@
     <frame x="0" y="25" width="1920" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18119387" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18119387" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32307693" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32307693" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3989011" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -487,30 +487,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dataloader.py">
+    <entry file="file://$PROJECT_DIR$/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="466" lean-forward="true" selection-start-line="466" selection-end-line="466" />
+        <state relative-caret-position="570">
+          <caret line="154" column="27" selection-start-line="154" selection-start-column="27" selection-end-line="154" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/train.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="658">
-          <caret line="196" column="11" selection-start-line="196" selection-start-column="11" selection-end-line="196" selection-end-column="11" />
+        <state relative-caret-position="136">
+          <caret line="57" column="65" selection-start-line="57" selection-start-column="65" selection-end-line="57" selection-end-column="65" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model.py">
+    <entry file="file://$PROJECT_DIR$/dataloader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="122" column="39" selection-start-line="122" selection-start-column="39" selection-end-line="122" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="224">
+          <caret line="619" column="32" selection-start-line="619" selection-start-column="32" selection-end-line="619" selection-end-column="32" />
         </state>
       </provider>
     </entry>

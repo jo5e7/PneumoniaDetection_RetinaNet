@@ -55,7 +55,7 @@ def train(csv_train=None, csv_classes=None, csv_val=None, epochs=12, depth=50):
 	else:
 		raise ValueError('Dataset type not understood (must be csv or coco), exiting.')
 
-	sampler = AspectRatioBasedSampler(dataset_train, batch_size=5, drop_last=False)
+	sampler = AspectRatioBasedSampler(dataset_train, batch_size=2, drop_last=False)
 	dataloader_train = DataLoader(dataset_train, num_workers=3, collate_fn=collater, batch_sampler=sampler)
 
 	if dataset_val is not None:
