@@ -206,8 +206,10 @@ class CSVDataset(Dataset):
     def __getitem__(self, idx):
 
         img = self.load_image(idx)
+        name = self.image_names[idx]
+        #print(name)
         annot = self.load_annotations(idx)
-        sample = {'img': img, 'annot': annot}
+        sample = {'img': img, 'annot': annot, 'name': name}
         if self.transform:
             sample = self.transform(sample)
 
@@ -307,6 +309,8 @@ def collater(data):
     imgs = [s['img'] for s in data]
     annots = [s['annot'] for s in data]
     scales = [s['scale'] for s in data]
+    names = [s['name'] for s in data]
+    #print(names)
         
     widths = [int(s.shape[0]) for s in imgs]
     heights = [int(s.shape[1]) for s in imgs]
@@ -338,7 +342,7 @@ def collater(data):
 
     padded_imgs = padded_imgs.permute(0, 3, 1, 2)
 
-    return {'img': padded_imgs, 'annot': annot_padded, 'scale': scales}
+    return {'img': padded_imgs, 'annot': annot_padded, 'scale': scales, 'name': names}
 
 
 def collater_image_only(data):
@@ -401,7 +405,7 @@ class Resizer(object):
 
         annots[:, :4] *= scale
 
-        return {'img': torch.from_numpy(new_image), 'annot': torch.from_numpy(annots), 'scale': scale}
+        return {'img': torch.from_numpy(new_image), 'annot': torch.from_numpy(annots), 'scale': scale, 'name':sample['name']}
 
 class Resizer_only_img(object):
     """Convert ndarrays in sample to Tensors."""
@@ -456,7 +460,7 @@ class Augmenter(object):
             annots[:, 0] = cols - x2
             annots[:, 2] = cols - x_tmp
 
-            sample = {'img': image, 'annot': annots}
+            sample = {'img': image, 'annot': annots, 'name': sample['name']}
 
         return sample
 
@@ -471,7 +475,7 @@ class Normalizer(object):
 
         image, annots = sample['img'], sample['annot']
 
-        return {'img':((image.astype(np.float32)-self.mean)/self.std), 'annot': annots}
+        return {'img':((image.astype(np.float32)-self.mean)/self.std), 'annot': annots, 'name':sample['name']}
 
 class Normalizer_only_image(object):
 
@@ -812,6 +816,45 @@ class Gamma_Correction(object):
         #ax = plt.subplot(1, 2, 2)
         #ax.imshow(sample['img'])
         #plt.show()
+
+        if random.random() < self.p:
+            return new_sample
+        return sample
+
+    def __repr__(self):
+        return self.__class__.__name__ + '(p={})'.format(self.p)
+
+
+from skimage.util import random_noise
+class Image_Noise(object):
+    """Horizontally flip the given PIL Image randomly with a given probability.
+
+    Args:
+        p (float): probability of the image being flipped. Default value is 0.5
+    """
+
+    def __init__(self, p=0.5):
+        self.p = p
+
+    def __call__(self, sample):
+        """
+        Args:
+            img (PIL Image): Image to be flipped.
+
+        Returns:
+            PIL Image: Randomly flipped image.
+        """
+
+        new_sample = deepcopy(sample)
+
+
+        new_sample['img'] = random_noise(new_sample['img'])
+
+        ax = plt.subplot(1,2,1)
+        ax.imshow(new_sample['img'])
+        ax = plt.subplot(1, 2, 2)
+        ax.imshow(sample['img'])
+        plt.show()
 
         if random.random() < self.p:
             return new_sample

@@ -19,7 +19,7 @@ import torchvision
 import model
 from anchors import Anchors
 import losses
-from dataloader import Blur, Gamma_Correction, RandomHorizontalFlip, CSVDataset, collater, Resizer, AspectRatioBasedSampler, Augmenter, RandomRotation, Normalizer
+from dataloader import Blur, Gamma_Correction, RandomHorizontalFlip, CSVDataset, collater, Resizer, AspectRatioBasedSampler, Augmenter, RandomRotation, Normalizer, Image_Noise
 from torch.utils.data import Dataset, DataLoader
 
 import coco_eval
@@ -44,7 +44,7 @@ def train(csv_train=None, csv_classes=None, csv_val=None, epochs=12, depth=50):
 			raise ValueError('Must provide --csv_classes when training on COCO,')
 
 
-		dataset_train = CSVDataset(train_file=csv_train, class_list=csv_classes, transform=transforms.Compose([RandomHorizontalFlip(),RandomRotation(6),Gamma_Correction(), Blur() , Normalizer(), Augmenter(), Resizer()]))
+		dataset_train = CSVDataset(train_file=csv_train, class_list=csv_classes, transform=transforms.Compose([RandomHorizontalFlip(0.3),RandomRotation(6),Gamma_Correction(0.3), Image_Noise(0.3), Blur(0.3) , Normalizer(), Augmenter(), Resizer()]))
 
 		if csv_val is None:
 			dataset_val = None

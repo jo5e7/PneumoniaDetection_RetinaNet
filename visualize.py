@@ -22,29 +22,35 @@ assert torch.__version__.split('.')[1] == '4'
 print('CUDA available: {}'.format(torch.cuda.is_available()))
 
 
-def main(args=None):
-	parser = argparse.ArgumentParser(description='Simple training script for training a RetinaNet network.')
+def get_filename(path):
+	print(path)
+	#print(len(path))
+	name = ""
+	for l in range(len(path)-5, 0, -1):
+		if path[l] == "/":
+			break
+		else:
+			name = path[l] + name
+			#print(name)
+		pass
+	return name
+	pass
 
-	parser.add_argument('--dataset', help='Dataset type, must be one of csv or coco.')
-	parser.add_argument('--coco_path', help='Path to COCO directory')
-	parser.add_argument('--csv_classes', help='Path to file containing class list (see readme)')
-	parser.add_argument('--csv_val', help='Path to file containing validation annotations (optional, see readme)')
+def visualize(csv_val, csv_classes, model):
 
-	parser.add_argument('--model', help='Path to model (.pt) file.')
 
-	parser = parser.parse_args(args)
+	dataset = "csv"
 
-	if parser.dataset == 'coco':
-		dataset_val = CocoDataset(parser.coco_path, set_name='val2017', transform=transforms.Compose([Normalizer(), Resizer()]))
-	elif parser.dataset == 'csv':
-		dataset_val = CSVDataset(train_file=parser.csv_val, class_list=parser.csv_classes, transform=transforms.Compose([Normalizer(), Resizer()]))
+
+	if dataset == 'csv':
+		dataset_val = CSVDataset(train_file=csv_val, class_list=csv_classes, transform=transforms.Compose([Normalizer(), Resizer()]))
 	else:
 		raise ValueError('Dataset type not understood (must be csv or coco), exiting.')
 
 	sampler_val = AspectRatioBasedSampler(dataset_val, batch_size=1, drop_last=False)
 	dataloader_val = DataLoader(dataset_val, num_workers=1, collate_fn=collater, batch_sampler=sampler_val)
 
-	retinanet = torch.load(parser.model)
+	retinanet = torch.load(model)
 
 	use_gpu = True
 
@@ -61,17 +67,20 @@ def main(args=None):
 		cv2.putText(image, caption, (b[0], b[1] - 10), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 0), 2)
 		cv2.putText(image, caption, (b[0], b[1] - 10), cv2.FONT_HERSHEY_PLAIN, 1, (255, 255, 255), 1)
 
+	kaggle_ouput = []
 	for idx, data in enumerate(dataloader_val):
-
+		print(idx)
+		kaggle_row = []
 		with torch.no_grad():
 			st = time.time()
-			print("data shape:", data['img'].shape)
+			#print("data shape:", data['img'].shape)
 			scores, classification, transformed_anchors = retinanet(data['img'].cuda().float())
-			print('Elapsed time: {}'.format(time.time()-st))
+			#print('Elapsed time: {}'.format(time.time()-st))
 			idxs = np.where(scores>0.5)
 			img = np.array(255 * unnormalize(data['img'][0, :, :, :])).copy()
 
-			print('Annot', data['annot'])
+			#print('Annot', data['annot'])
+			#print("name", data['name'])
 
 
 			img[img<0] = 0
@@ -81,6 +90,8 @@ def main(args=None):
 
 			img = cv2.cvtColor(img.astype(np.uint8), cv2.COLOR_BGR2RGB)
 
+			kaggle_row.append(get_filename(data['name'][0]))
+			row = ''
 			for j in range(idxs[0].shape[0]):
 				bbox = transformed_anchors[idxs[0][j], :]
 				x1 = int(bbox[0])
@@ -91,16 +102,35 @@ def main(args=None):
 				draw_caption(img, (x1, y1, x2, y2), label_name)
 
 				cv2.rectangle(img, (x1, y1), (x2, y2), color=(0, 0, 255), thickness=2)
-				print(label_name)
+				#print(label_name)
+				if (j==0):
+					row = row + str(round(scores[j].item(),2)) +" " +str(x1) + ' ' + str(y1) + ' ' + str(x2 - x1) + ' ' + str(y2 - y1)
+					pass
+				else:
+					row = row + " " + str(round(scores[j].item(),2)) +" "+ str(x1) + ' ' + str(y1) + ' ' + str(x2 - x1) + ' ' + str(y2 - y1)
+
+
+
 
 			for ann in data['annot']:
 				for annotation in ann:
 					cv2.rectangle(img, (annotation[0], annotation[1]), (annotation[2], annotation[3]), color=(0, 255, 0), thickness=2)
 				pass
-			cv2.imshow('img', img)
-			cv2.waitKey(2000)
+			#cv2.imshow('img', img)
+			kaggle_row.append(row)
+			print(kaggle_row)
+			print(idxs)
+			kaggle_ouput.append(kaggle_row)
+			#cv2.waitKey(0)
+
+	import pandas as pd
+	pd.DataFrame(kaggle_ouput, columns=['patientId', 'PredictionString']).to_csv("/home/jdmaestre/PycharmProjects/test_kaggle.csv")
 
 
+csv_classes = "/home/jdmaestre/PycharmProjects/Pneumonia_dataset/class_map.csv"
+model =  "/home/jdmaestre/PycharmProjects/final_models/20ep_50res_5bs_syn/model_final.pt"
+csv_val = "/home/jdmaestre/PycharmProjects/Pneumonia_dataset_synthetic/synthetic_test_set.csv"
+csv_val = "/home/jdmaestre/PycharmProjects/test_labels.csv"
 
-if __name__ == '__main__':
- main()
+
+visualize(csv_val, csv_classes, model)

@@ -22,6 +22,8 @@ assert torch.__version__.split('.')[1] == '4'
 print('CUDA available: {}'.format(torch.cuda.is_available()))
 
 
+
+
 def predict(folder_path, model_path):
 
     dataset_val = datasets.ImageFolder(folder_path,  transform=transforms.Compose([Normalizer_only_image(), Resizer_only_img()]))
@@ -53,18 +55,21 @@ def predict(folder_path, model_path):
         cv2.putText(image, caption, (b[0], b[1] - 10), cv2.FONT_HERSHEY_PLAIN, 1, (255, 255, 255), 1)
 
     for idx, data in enumerate(dataloader_val):
-        print(idx)
-        print("shape data:", data[0].shape)
+        print("idx", idx)
         with torch.no_grad():
             st = time.time()
             dataa = data[0]
             dataa = dataa.view(1,3,640,640)
-            print("shape dataaa:", dataa.shape)
+            #print("shape dataaa:", dataa.shape)
             scores, classification, transformed_anchors = retinanet(dataa.cuda().float())
-            print('Elapsed time: {}'.format(time.time()-st))
+            #print('Elapsed time: {}'.format(time.time()-st))
             idxs = np.where(scores>0.5)
             img = np.array(255 * unnormalize(dataa[0, :, :, :])).copy()
 
+            #print("Classification", classification)
+            #print("Scores", scores)
+            #print("transformed_anchors", transformed_anchors)
+            # print("Shape", img.shape)
 
 
             img[img<0] = 0
@@ -91,4 +96,4 @@ def predict(folder_path, model_path):
                 #print(label_name)
 
             cv2.imshow('img', img)
-            cv2.waitKey(2000)
+            cv2.waitKey(0)
