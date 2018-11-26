@@ -547,7 +547,12 @@ class AspectRatioBasedSampler(Sampler):
         return [[order[x % len(order)] for x in range(i, i + self.batch_size)] for i in range(0, len(order), self.batch_size)]
 
 import numbers
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 from torch import functional as F
+from skimage.viewer import ImageViewer
+from skimage.transform import rotate as skRotate
+from copy import deepcopy
 
 class RandomRotation(object):
     """Rotate the image by angle.
@@ -603,10 +608,80 @@ class RandomRotation(object):
         """
 
         angle = self.get_params(self.degrees)
-        print(angle)
-        print(sample)
+        new_sample = deepcopy(sample)
+        #print(sample['img'].shape)
 
-        return F.rotate(sample, angle, self.resample, self.expand, self.center)
+        #print("axis:", x_axis, y_axis)
+
+        #print(len(sample['annot']))
+        #print(sample['annot'])
+        #img = sample['img']
+        #fig, ax = plt.subplots(1)
+        #ax.imshow(img)
+        for n in range(0, len(new_sample['annot'])):
+            annot = new_sample['annot'][n]
+            #print(annot[0])
+            x_axis = (((annot[2]-annot[0]))/2) + annot[0]
+            y_axis = (((annot[3]-annot[1]))/2) + annot[1]
+            old_x1 = annot[0] - x_axis
+            old_y1 = annot[1] - y_axis
+            old_x2 = annot[2] - x_axis
+            old_y2 = annot[3] - y_axis
+            old_x3 = annot[0] - x_axis
+            old_y3 = annot[3] - y_axis
+            old_x4 = annot[2] - x_axis
+            old_y4 = annot[1] - y_axis
+            #rect = patches.Rectangle((annot[0], annot[1]), annot[2]-annot[0], annot[3]-annot[1], linewidth=1, edgecolor='g', facecolor='none')
+            #ax.add_patch(rect)
+
+            new_x1 = (old_x1 * np.cos(np.deg2rad(angle))) - (old_y1 * np.sin(np.deg2rad(angle)))
+            new_y1 = (old_y1 * np.cos(np.deg2rad(angle))) + (old_x1 * np.sin(np.deg2rad(angle)))
+            new_x2 = (old_x2 * np.cos(np.deg2rad(angle))) - (old_y2 * np.sin(np.deg2rad(angle)))
+            new_y2 = (old_y2 * np.cos(np.deg2rad(angle))) + (old_x2 * np.sin(np.deg2rad(angle)))
+            new_x3 = (old_x3 * np.cos(np.deg2rad(angle))) - (old_y3 * np.sin(np.deg2rad(angle)))
+            new_y3 = (old_y3 * np.cos(np.deg2rad(angle))) + (old_x3 * np.sin(np.deg2rad(angle)))
+            new_x4 = (old_x4 * np.cos(np.deg2rad(angle))) - (old_y4 * np.sin(np.deg2rad(angle)))
+            new_y4 = (old_y4 * np.cos(np.deg2rad(angle))) + (old_x4 * np.sin(np.deg2rad(angle)))
+            new_x1 += x_axis
+            new_x2 += x_axis
+            new_y1 += y_axis
+            new_y2 += y_axis
+            new_x3 += x_axis
+            new_x4 += x_axis
+            new_y3 += y_axis
+            new_y4 += y_axis
+
+            #print("angle:", angle, "x1:", old_x1+512, "y1: ", old_y1+512, "x1':", new_x1, "y1':", new_y1)
+            xs = [new_x1, new_x2, new_x3, new_x4]
+            ys = [new_y1, new_y2, new_y3, new_y4]
+
+            #print(xs)
+            #print(min(xs))
+            #print(ys)
+            #print(max(ys))
+            #new_x1 = min(xs)
+            #new_y1 = min(ys)
+            #new_x2 = max(xs)
+            #new_y2 = max(ys)
+            #rect = patches.Rectangle((new_x1, new_y1), new_x2-new_x1, new_y2-new_y1, linewidth=1, edgecolor='r', facecolor='none')
+            #ax.add_patch(rect)
+
+
+
+            annot = [min(xs), min(ys), max(xs), max(ys), annot[4]]
+            new_sample['annot'][n] = annot
+            #print(annot)
+            #print("-------------")
+            pass
+        #plt.show()
+
+        new_sample['img'] = skRotate(new_sample['img'], angle)
+        #v = ImageViewer(new_sample['img'])
+
+        #v.show()
+
+        #print("-------------")
+        return new_sample
 
     def __repr__(self):
         format_string = self.__class__.__name__ + '(degrees={0}'.format(self.degrees)
@@ -616,3 +691,131 @@ class RandomRotation(object):
             format_string += ', center={0}'.format(self.center)
         format_string += ')'
         return format_string
+
+class RandomHorizontalFlip(object):
+    """Horizontally flip the given PIL Image randomly with a given probability.
+
+    Args:
+        p (float): probability of the image being flipped. Default value is 0.5
+    """
+
+    def __init__(self, p=0.5):
+        self.p = p
+
+    def __call__(self, sample):
+        """
+        Args:
+            img (PIL Image): Image to be flipped.
+
+        Returns:
+            PIL Image: Randomly flipped image.
+        """
+
+        new_sample = deepcopy(sample)
+
+        #im = new_sample['img']
+        #ax = plt.subplot(2, 1, 1)
+        #ax.imshow(im)
+        #for n in range(0, len(new_sample['annot'])):
+        #    annot = new_sample['annot'][n]
+        #    rect = patches.Rectangle((annot[0], annot[1]), annot[2]-annot[0], annot[3]-annot[1], linewidth=1, edgecolor='g', facecolor='none')
+        #    ax.add_patch(rect)
+        #    pass
+        #ax = plt.subplot(2, 1, 2)
+
+        #ax.imshow(new_sample['img'])
+
+
+        x_axis = new_sample['img'].shape[0]/2
+        new_sample['img'] = np.fliplr(new_sample['img'])
+        for n in range(0, len(new_sample['annot'])):
+            annot = new_sample['annot'][n]
+            annot[0] = x_axis - (annot[0] - x_axis)
+            annot[2] = x_axis - (annot[2] - x_axis)
+
+
+            #rect = patches.Rectangle((annot[0], annot[1]), annot[2] - annot[0], annot[3] - annot[1], linewidth=1,
+            #                         edgecolor='r', facecolor='none')
+            #ax.add_patch(rect)
+            new_sample['annot'][n] = annot
+            pass
+
+        #plt.show()
+        if random.random() < self.p:
+            return new_sample
+        return sample
+
+    def __repr__(self):
+        return self.__class__.__name__ + '(p={})'.format(self.p)
+
+from scipy import ndimage
+class Blur(object):
+    """Horizontally flip the given PIL Image randomly with a given probability.
+
+    Args:
+        p (float): probability of the image being flipped. Default value is 0.5
+    """
+
+    def __init__(self, p=0.5):
+        self.p = p
+
+    def __call__(self, sample):
+        """
+        Args:
+            img (PIL Image): Image to be flipped.
+
+        Returns:
+            PIL Image: Randomly flipped image.
+        """
+
+        new_sample = deepcopy(sample)
+
+        new_sample['img'] = ndimage.uniform_filter(new_sample['img'], size=(11, 11, 1))
+
+        #plt.imshow(new_sample['img'])
+        #plt.show()
+        if random.random() < self.p:
+            return new_sample
+        return sample
+
+    def __repr__(self):
+        return self.__class__.__name__ + '(p={})'.format(self.p)
+
+from skimage.exposure import adjust_gamma
+import skimage.io as io
+class Gamma_Correction(object):
+    """Horizontally flip the given PIL Image randomly with a given probability.
+
+    Args:
+        p (float): probability of the image being flipped. Default value is 0.5
+    """
+
+    def __init__(self, p=0.5):
+        self.p = p
+
+    def __call__(self, sample):
+        """
+        Args:
+            img (PIL Image): Image to be flipped.
+
+        Returns:
+            PIL Image: Randomly flipped image.
+        """
+
+        new_sample = deepcopy(sample)
+
+
+        new_sample['img'] = adjust_gamma(new_sample['img'], gamma=0.2, gain=0.9)
+
+        #ax = plt.subplot(1,2,1)
+        #ax.imshow(new_sample['img'])
+        #ax = plt.subplot(1, 2, 2)
+        #ax.imshow(sample['img'])
+        #plt.show()
+
+        if random.random() < self.p:
+            return new_sample
+        return sample
+
+    def __repr__(self):
+        return self.__class__.__name__ + '(p={})'.format(self.p)
