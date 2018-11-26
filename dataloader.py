@@ -685,7 +685,11 @@ class RandomRotation(object):
         #v.show()
 
         #print("-------------")
-        return new_sample
+        if random.random() < 0.3:
+            return new_sample
+        return sample
+
+
 
     def __repr__(self):
         format_string = self.__class__.__name__ + '(degrees={0}'.format(self.degrees)
