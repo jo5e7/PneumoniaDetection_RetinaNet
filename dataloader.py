@@ -618,7 +618,7 @@ class RandomRotation(object):
 
         #print("-------------")
         if random.random() < 0.3:
-            print("rotation", random.random())
+            #print("rotation", random.random())
             angle = self.get_params(self.degrees)
             new_sample = deepcopy(sample)
             # print(sample['img'].shape)
