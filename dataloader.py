@@ -849,7 +849,7 @@ class Image_Noise(object):
         if random.random() < self.p:
             new_sample = deepcopy(sample)
             new_sample['img'] = random_noise(new_sample['img'], var=0.0005)
-            show_images(sample, new_sample)
+            #show_images(sample, new_sample)
             return new_sample
         return sample
 
