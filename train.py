@@ -167,6 +167,11 @@ def train(csv_train=None, csv_classes=None, csv_val=None, epochs=12, depth=50, b
 		print("Epoch loss", total_loss_data)
 		print("Epoch loss - classification", class_loss_data)
 		print("Epoch loss - Regression", reg_loss_data)
+		with open("Output.txt", "w") as text_file:
+			print("------------------------", file=text_file)
+			print("Epoch loss", total_loss_data, file=text_file)
+			print("Epoch loss - classification", class_loss_data, file=text_file)
+			print("Epoch loss - Regression", reg_loss_data, file=text_file)
 		# Change
 		scheduler.step(np.mean(epoch_loss))	
 
@@ -175,6 +180,8 @@ def train(csv_train=None, csv_classes=None, csv_val=None, epochs=12, depth=50, b
 	retinanet.eval()
 
 	torch.save(retinanet, 'model_final.pt'.format(epoch_num))
+
+
 
 	# Change
 	import matplotlib.pyplot as plt
@@ -189,11 +196,12 @@ def train(csv_train=None, csv_classes=None, csv_val=None, epochs=12, depth=50, b
 	#Change
 
 
+from pathlib import Path
+mypath = Path().absolute()
+print(mypath)
 
-csv_train = "/home/jdmaestre/PycharmProjects/Pneumonia_dataset_synthetic/synthetic_train_set_dummy.csv"
-csv_train = "/home/jdmaestre/PycharmProjects/Pneumonia_dataset_synthetic/synthetic_train_set.csv"
-csv_train = "/home/jdmaestre/PycharmProjects/Pneumonia_dataset/stage_2_train_labels.csv"
-csv_classes = "/home/jdmaestre/PycharmProjects/Pneumonia_dataset/class_map.csv"
+csv_train = str(mypath) + "/google_cloud/stage_2_train_labels.csv"
+csv_classes = str(mypath) + "/google_cloud/class_map.csv"
 epochs = 20
 depth = 50
 

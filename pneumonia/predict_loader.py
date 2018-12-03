@@ -7,3 +7,5 @@ model_path =  "/home/jdmaestre/PycharmProjects/final_models/20ep_50res_5bs_syn/m
 #predict(test_path, model_path)
 
 
+with open("Output.txt", "w") as text_file:
+    print("Purchase Amount: ", file=text_file)

@@ -20,6 +20,7 @@ import skimage
 from future.utils import raise_from
 
 from PIL import Image
+from pathlib import Path
 
 
 class CocoDataset(Dataset):
@@ -216,7 +217,7 @@ class CSVDataset(Dataset):
         return sample
 
     def load_image(self, image_index):
-        img = skimage.io.imread(self.image_names[image_index])
+        img = skimage.io.imread(str(Path().absolute()) + self.image_names[image_index])
 
         if len(img.shape) == 2:
             img = skimage.color.gray2rgb(img)
@@ -300,7 +301,7 @@ class CSVDataset(Dataset):
         return max(self.classes.values()) + 1
 
     def image_aspect_ratio(self, image_index):
-        image = Image.open(self.image_names[image_index])
+        image = Image.open(str(Path().absolute()) + self.image_names[image_index])
         return float(image.width) / float(image.height)
 
 
