@@ -30,7 +30,7 @@ assert torch.__version__.split('.')[1] == '4'
 print('CUDA available: {}'.format(torch.cuda.is_available()))
 
 
-def train(csv_train=None, csv_classes=None, csv_val=None, epochs=12, depth=50):
+def train(csv_train=None, csv_classes=None, csv_val=None, epochs=12, depth=50, batch_size=2):
 
 	dataset = "csv"
 
@@ -44,7 +44,7 @@ def train(csv_train=None, csv_classes=None, csv_val=None, epochs=12, depth=50):
 			raise ValueError('Must provide --csv_classes when training on COCO,')
 
 
-		dataset_train = CSVDataset(train_file=csv_train, class_list=csv_classes, transform=transforms.Compose([RandomHorizontalFlip(0.3),RandomRotation(6),Gamma_Correction(0.3), Image_Noise(0.3), Blur(0.3) , Normalizer(), Augmenter(), Resizer()]))
+		dataset_train = CSVDataset(train_file=csv_train, class_list=csv_classes, transform=transforms.Compose([RandomHorizontalFlip(0.3),RandomRotation(6),Gamma_Correction(0.2), Image_Noise(0.2), Blur(0.2) , Normalizer(), Augmenter(), Resizer()]))
 
 		if csv_val is None:
 			dataset_val = None
@@ -55,7 +55,7 @@ def train(csv_train=None, csv_classes=None, csv_val=None, epochs=12, depth=50):
 	else:
 		raise ValueError('Dataset type not understood (must be csv or coco), exiting.')
 
-	sampler = AspectRatioBasedSampler(dataset_train, batch_size=2, drop_last=False)
+	sampler = AspectRatioBasedSampler(dataset_train, batch_size=batch_size, drop_last=False)
 	dataloader_train = DataLoader(dataset_train, num_workers=3, collate_fn=collater, batch_sampler=sampler)
 
 	if dataset_val is not None:
@@ -197,4 +197,4 @@ csv_classes = "/home/jdmaestre/PycharmProjects/Pneumonia_dataset/class_map.csv"
 epochs = 20
 depth = 50
 
-train(csv_train, csv_classes, epochs=epochs, depth=depth)
+train(csv_train, csv_classes, epochs=epochs, depth=depth, batch_size=2)

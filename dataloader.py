@@ -777,13 +777,10 @@ class Blur(object):
             PIL Image: Randomly flipped image.
         """
 
-
-
-        #plt.imshow(new_sample['img'])
-        #plt.show()
         if random.random() < self.p:
             new_sample = deepcopy(sample)
-            new_sample['img'] = ndimage.uniform_filter(new_sample['img'], size=(11, 11, 1))
+            new_sample['img'] = ndimage.uniform_filter(new_sample['img'], size=(4, 4, .4))
+            #show_images(sample, new_sample)
             return new_sample
         return sample
 
@@ -810,18 +807,10 @@ class Gamma_Correction(object):
         Returns:
             PIL Image: Randomly flipped image.
         """
-
-
-
-        #ax = plt.subplot(1,2,1)
-        #ax.imshow(new_sample['img'])
-        #ax = plt.subplot(1, 2, 2)
-        #ax.imshow(sample['img'])
-        #plt.show()
-
         if random.random() < self.p:
             new_sample = deepcopy(sample)
-            new_sample['img'] = adjust_gamma(new_sample['img'], gamma=0.2, gain=0.9)
+            new_sample['img'] = adjust_gamma(new_sample['img'], gamma=0.8, gain=0.9)
+            #show_images(sample, new_sample)
             return new_sample
         return sample
 
@@ -859,9 +848,29 @@ class Image_Noise(object):
 
         if random.random() < self.p:
             new_sample = deepcopy(sample)
-            new_sample['img'] = random_noise(new_sample['img'])
+            new_sample['img'] = random_noise(new_sample['img'], var=0.0005)
+            show_images(sample, new_sample)
             return new_sample
         return sample
 
     def __repr__(self):
         return self.__class__.__name__ + '(p={})'.format(self.p)
+
+def show_images(original, new):
+    ax = plt.subplot(1,2,1)
+    for n in range(0, len(new['annot'])):
+       annot = new['annot'][n]
+       rect = patches.Rectangle((annot[0], annot[1]), annot[2]-annot[0], annot[3]-annot[1], linewidth=1, edgecolor='g', facecolor='none')
+       ax.add_patch(rect)
+       pass
+    ax.imshow(new['img'])
+    ax.set_title("Modified image")
+    ax = plt.subplot(1, 2, 2)
+    for n in range(0, len(original['annot'])):
+       annot = original['annot'][n]
+       rect = patches.Rectangle((annot[0], annot[1]), annot[2]-annot[0], annot[3]-annot[1], linewidth=1, edgecolor='r', facecolor='none')
+       ax.add_patch(rect)
+       pass
+    ax.imshow(original['img'])
+    ax.set_title("Original image")
+    plt.show()

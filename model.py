@@ -140,11 +140,11 @@ class ClassificationModel(nn.Module):
     def forward(self, x):
 
         out = self.conv1(x)
-        out = self.dropout1(out)
+        #out = self.dropout1(out)
         out = self.act1(out)
 
         out = self.conv2(out)
-        out = self.dropout2(out)
+        #out = self.dropout2(out)
         out = self.act2(out)
 
         out = self.conv3(out)

@@ -79,7 +79,7 @@ def visualize(csv_val, csv_classes, model):
 			idxs = np.where(scores>0.5)
 			img = np.array(255 * unnormalize(data['img'][0, :, :, :])).copy()
 
-			#print('Annot', data['annot'])
+			print('Scores', scores)
 			#print("name", data['name'])
 
 
@@ -102,7 +102,7 @@ def visualize(csv_val, csv_classes, model):
 				draw_caption(img, (x1, y1, x2, y2), label_name)
 
 				cv2.rectangle(img, (x1, y1), (x2, y2), color=(0, 0, 255), thickness=2)
-				#print(label_name)
+				print(x1, y1, x2, y2)
 				if (j==0):
 					row = row + str(round(scores[j].item(),2)) +" " +str(x1) + ' ' + str(y1) + ' ' + str(x2 - x1) + ' ' + str(y2 - y1)
 					pass
@@ -110,27 +110,27 @@ def visualize(csv_val, csv_classes, model):
 					row = row + " " + str(round(scores[j].item(),2)) +" "+ str(x1) + ' ' + str(y1) + ' ' + str(x2 - x1) + ' ' + str(y2 - y1)
 
 
-
-
 			for ann in data['annot']:
 				for annotation in ann:
 					cv2.rectangle(img, (annotation[0], annotation[1]), (annotation[2], annotation[3]), color=(0, 255, 0), thickness=2)
 				pass
-			#cv2.imshow('img', img)
+
+			cv2.imshow('img', img)
 			kaggle_row.append(row)
 			print(kaggle_row)
 			print(idxs)
 			kaggle_ouput.append(kaggle_row)
-			#cv2.waitKey(0)
+			cv2.waitKey(0)
 
 	import pandas as pd
 	pd.DataFrame(kaggle_ouput, columns=['patientId', 'PredictionString']).to_csv("/home/jdmaestre/PycharmProjects/test_kaggle.csv")
 
 
 csv_classes = "/home/jdmaestre/PycharmProjects/Pneumonia_dataset/class_map.csv"
-model =  "/home/jdmaestre/PycharmProjects/final_models/20ep_50res_5bs_syn/model_final.pt"
+model =  "/home/jdmaestre/PycharmProjects/final_models/20ep_50res_2bs_original_lessAugmentation/model_final.pt"
+model =  "/home/jdmaestre/PycharmProjects/final_models/realData_12ep_2bz_16h.pt"
 csv_val = "/home/jdmaestre/PycharmProjects/Pneumonia_dataset_synthetic/synthetic_test_set.csv"
-csv_val = "/home/jdmaestre/PycharmProjects/test_labels.csv"
+#csv_val = "/home/jdmaestre/PycharmProjects/test_labels.csv"
 
 
 visualize(csv_val, csv_classes, model)
