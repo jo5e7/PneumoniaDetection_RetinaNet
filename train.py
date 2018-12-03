@@ -201,6 +201,7 @@ mypath = Path().absolute()
 print(mypath)
 
 csv_train = str(mypath) + "/google_cloud/stage_2_train_labels.csv"
+csv_train = str(mypath) + "/google_cloud/synthetic_train_set.csv"
 csv_classes = str(mypath) + "/google_cloud/class_map.csv"
 epochs = 20
 depth = 50
