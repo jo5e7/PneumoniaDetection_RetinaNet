@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ee72647d-f2b4-4a5f-bc23-c50fa4cdb993" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/anchors.py" beforeDir="false" afterPath="$PROJECT_DIR$/anchors.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
-    </list>
+    <list default="true" id="ee72647d-f2b4-4a5f-bc23-c50fa4cdb993" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,8 +13,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="448">
-              <caret line="199" column="70" selection-start-line="199" selection-start-column="70" selection-end-line="199" selection-end-column="70" />
+            <state relative-caret-position="118">
+              <caret line="184" column="23" selection-start-line="184" selection-start-column="23" selection-end-line="184" selection-end-column="23" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -136,6 +131,32 @@
             <path>
               <item name="pytorch-retinanet" type="b2602c69:ProjectViewProjectNode" />
               <item name="pytorch-retinanet" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pytorch-retinanet" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pytorch-retinanet" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pytorch-retinanet" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pytorch-retinanet" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="nms" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pytorch-retinanet" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pytorch-retinanet" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="nms" type="462c0819:PsiDirectoryNode" />
+              <item name="_ext" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pytorch-retinanet" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pytorch-retinanet" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="nms" type="462c0819:PsiDirectoryNode" />
+              <item name="_ext" type="462c0819:PsiDirectoryNode" />
+              <item name="nms" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="pytorch-retinanet" type="b2602c69:ProjectViewProjectNode" />
@@ -270,10 +291,10 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.create_test_csv" />
       <item itemvalue="Python.predict_loader" />
       <item itemvalue="Python.train" />
       <item itemvalue="Python.visualize" />
-      <item itemvalue="Python.create_test_csv" />
       <item itemvalue="Python tests.pytest in create_test_csv.py" />
     </list>
     <recent_temporary>
@@ -315,14 +336,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1920" height="1055" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18119387" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18119387" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2791209" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.2791209" />
       <window_info anchor="bottom" id="Python Console" order="3" weight="0.32747254" />
       <window_info anchor="bottom" id="Debug" order="4" weight="0.2956044" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
@@ -529,8 +549,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/train.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="199" column="70" selection-start-line="199" selection-start-column="70" selection-end-line="199" selection-end-column="70" />
+        <state relative-caret-position="118">
+          <caret line="184" column="23" selection-start-line="184" selection-start-column="23" selection-end-line="184" selection-end-column="23" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
