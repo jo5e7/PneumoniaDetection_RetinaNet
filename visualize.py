@@ -115,7 +115,7 @@ def visualize(csv_val, csv_classes, model):
 					cv2.rectangle(img, (annotation[0], annotation[1]), (annotation[2], annotation[3]), color=(0, 255, 0), thickness=2)
 				pass
 
-			cv2.imshow('img', img)
+			#cv2.imshow('img', img)
 			kaggle_row.append(row)
 			print(kaggle_row)
 			print(idxs)
@@ -128,9 +128,9 @@ def visualize(csv_val, csv_classes, model):
 
 csv_classes = "/home/jdmaestre/PycharmProjects/Pneumonia_dataset/class_map.csv"
 model =  "/home/jdmaestre/PycharmProjects/final_models/20ep_50res_2bs_original_lessAugmentation/model_final.pt"
-model =  "/home/jdmaestre/PycharmProjects/final_models/realData_12ep_2bz_16h.pt"
+model =  "/home/jdmaestre/Final models Pneumonia/NOag_FULLds/model_final.pt"
 csv_val = "/home/jdmaestre/PycharmProjects/Pneumonia_dataset_synthetic/synthetic_test_set.csv"
-#csv_val = "/home/jdmaestre/PycharmProjects/test_labels.csv"
+csv_val = "/home/jdmaestre/PycharmProjects/test_labels.csv"
 
 
 visualize(csv_val, csv_classes, model)
