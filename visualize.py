@@ -65,7 +65,14 @@ def visualize(csv_val, csv_classes, model):
 
 		b = np.array(box).astype(int)
 		cv2.putText(image, caption, (b[0], b[1] - 10), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 0), 2)
-		cv2.putText(image, caption, (b[0], b[1] - 10), cv2.FONT_HERSHEY_PLAIN, 1, (255, 255, 255), 1)
+		cv2.putText(image, caption, (b[0], b[1] - 10), cv2.FONT_HERSHEY_PLAIN, 1, (0, 180, 0), 1)
+
+	def draw_caption_original(image, box, caption):
+
+		b = np.array(box).astype(int)
+		#print("b", b)
+		cv2.putText(image, caption, (b[0], b[3] + 20), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 0), 2)
+		cv2.putText(image, caption, (b[0], b[3] + 20), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 180), 1) #B
 
 	kaggle_ouput = []
 	for idx, data in enumerate(dataloader_val):
@@ -99,10 +106,10 @@ def visualize(csv_val, csv_classes, model):
 				x2 = int(bbox[2])
 				y2 = int(bbox[3])
 				label_name = dataset_val.labels[int(classification[idxs[0][j]])]
-				draw_caption(img, (x1, y1, x2, y2), label_name)
+				draw_caption(img, (x1, y1, x2, y2), "Predicted opacity")
 
-				cv2.rectangle(img, (x1, y1), (x2, y2), color=(0, 0, 255), thickness=2)
-				print(x1, y1, x2, y2)
+				cv2.rectangle(img, (x1, y1), (x2, y2), color=(0, 255, 0), thickness=2)
+				#print(x1, y1, x2, y2)
 				if (j==0):
 					row = row + str(round(scores[j].item(),2)) +" " +str(x1) + ' ' + str(y1) + ' ' + str(x2 - x1) + ' ' + str(y2 - y1)
 					pass
@@ -112,13 +119,18 @@ def visualize(csv_val, csv_classes, model):
 
 			for ann in data['annot']:
 				for annotation in ann:
-					cv2.rectangle(img, (annotation[0], annotation[1]), (annotation[2], annotation[3]), color=(0, 255, 0), thickness=2)
+					#print("Original annot:", ann)
+					if annotation[0] != -1:
+						draw_caption_original(img, (annotation[0], annotation[1], annotation[2], annotation[3]),
+											  "Real opacity")
+
+					cv2.rectangle(img, (annotation[0], annotation[1]), (annotation[2], annotation[3]), color=(0, 0, 255), thickness=2)
 				pass
 
 			cv2.imshow('img', img)
 			kaggle_row.append(row)
-			print(kaggle_row)
-			print(idxs)
+			#print(kaggle_row)
+			#print(idxs)
 			kaggle_ouput.append(kaggle_row)
 			cv2.waitKey(0)
 
@@ -128,7 +140,7 @@ def visualize(csv_val, csv_classes, model):
 
 csv_classes = "/home/jdmaestre/PycharmProjects/Pneumonia_dataset/class_map.csv"
 model =  "/home/jdmaestre/PycharmProjects/final_models/20ep_50res_2bs_original_lessAugmentation/model_final.pt"
-model =  "/home/jdmaestre/PycharmProjects/final_models/realData_12ep_2bz_16h.pt"
+model =  "/home/jdmaestre/Final models Pneumonia/HALFag_FULLds_NOrot-mirror/model_final.pt"
 csv_val = "/home/jdmaestre/PycharmProjects/Pneumonia_dataset_synthetic/synthetic_test_set.csv"
 #csv_val = "/home/jdmaestre/PycharmProjects/test_labels.csv"
 
