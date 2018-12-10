@@ -50,6 +50,8 @@ class FocalLoss(nn.Module):
                 regression_losses.append(torch.tensor(0).float().cuda())
                 classification_losses.append(torch.tensor(0).float().cuda())
 
+
+
                 continue
 
             classification = torch.clamp(classification, 1e-4, 1.0 - 1e-4)

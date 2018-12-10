@@ -131,11 +131,11 @@ class ClassificationModel(nn.Module):
         
         self.conv1 = nn.Conv2d(num_features_in, feature_size, kernel_size=3, padding=1)
         self.act1 = nn.ReLU()
-        self.dropout1 = nn.Dropout(0.25)
+        self.dropout1 = nn.Dropout(0.2)
 
         self.conv2 = nn.Conv2d(feature_size, feature_size, kernel_size=3, padding=1)
         self.act2 = nn.ReLU()
-        self.dropout2 = nn.Dropout(0.25)
+        self.dropout2 = nn.Dropout(0.2)
 
         self.conv3 = nn.Conv2d(feature_size, feature_size, kernel_size=3, padding=1)
         self.act3 = nn.ReLU()
@@ -147,15 +147,16 @@ class ClassificationModel(nn.Module):
 
         self.output = nn.Conv2d(feature_size, num_anchors*num_classes, kernel_size=3, padding=1)
         self.output_act = nn.Sigmoid()
+        self.dropout_output = nn.Dropout(0.2)
 
     def forward(self, x):
 
         out = self.conv1(x)
-        #out = self.dropout1(out)
+        out = self.dropout1(out)
         out = self.act1(out)
 
         out = self.conv2(out)
-        #out = self.dropout2(out)
+        out = self.dropout2(out)
         out = self.act2(out)
 
         out = self.conv3(out)
@@ -168,6 +169,7 @@ class ClassificationModel(nn.Module):
 
         out = self.output(out)
         out = self.output_act(out)
+        out = self.dropout_output(out)
 
         # out is B x C x W x H, with C = n_classes + n_anchors
         out1 = out.permute(0, 2, 3, 1)

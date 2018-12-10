@@ -462,6 +462,7 @@ class Augmenter(object):
 
             sample = {'img': image, 'annot': annots, 'name': sample['name']}
 
+
         return sample
 
 
@@ -617,7 +618,7 @@ class RandomRotation(object):
         #v.show()
 
         #print("-------------")
-        if random.random() < 0.3:
+        if random.random() < 0.35:
             #print("rotation", random.random())
             angle = self.get_params(self.degrees)
             new_sample = deepcopy(sample)
@@ -635,6 +636,7 @@ class RandomRotation(object):
                 # print(annot[0])
                 x_axis = (((annot[2] - annot[0])) / 2) + annot[0]
                 y_axis = (((annot[3] - annot[1])) / 2) + annot[1]
+
                 old_x1 = annot[0] - x_axis
                 old_y1 = annot[1] - y_axis
                 old_x2 = annot[2] - x_axis
@@ -680,13 +682,16 @@ class RandomRotation(object):
 
                 annot = [min(xs), min(ys), max(xs), max(ys), annot[4]]
                 new_sample['annot'][n] = annot
-                # print(annot)
-                # print("-------------")
+
+
                 pass
             # plt.show()
-
             new_sample['img'] = skRotate(new_sample['img'], angle)
+            #show_images(sample, new_sample)
+            #print(new_sample['annot'])
+            #print(sample['annot'])
             return new_sample
+
         return sample
 
 
@@ -744,6 +749,8 @@ class RandomHorizontalFlip(object):
                 annot = new_sample['annot'][n]
                 annot[0] = x_axis - (annot[0] - x_axis)
                 annot[2] = x_axis - (annot[2] - x_axis)
+                #print("annot0", annot[0])
+                #print("annot2",annot[2])
 
                 # rect = patches.Rectangle((annot[0], annot[1]), annot[2] - annot[0], annot[3] - annot[1], linewidth=1,
                 #                         edgecolor='r', facecolor='none')
@@ -751,6 +758,9 @@ class RandomHorizontalFlip(object):
                 new_sample['annot'][n] = annot
                 pass
 
+            #print('new',new_sample['img'])
+            #print('old',sample['img'])
+            #show_images(sample, new_sample)
             return new_sample
         return sample
 

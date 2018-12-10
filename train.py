@@ -44,7 +44,7 @@ def train(csv_train=None, csv_classes=None, csv_val=None, epochs=12, depth=50, b
 			raise ValueError('Must provide --csv_classes when training on COCO,')
 
 
-		dataset_train = CSVDataset(train_file=csv_train, class_list=csv_classes, transform=transforms.Compose([RandomHorizontalFlip(0.3),RandomRotation(6),Gamma_Correction(0.2), Image_Noise(0.2), Blur(0.2) , Normalizer(), Augmenter(), Resizer()]))
+		dataset_train = CSVDataset(train_file=csv_train, class_list=csv_classes, transform=transforms.Compose([RandomRotation(6),Gamma_Correction(0.35), Image_Noise(0.35), Blur(0.35) , Normalizer(), Augmenter(), Resizer()]))
 
 		if csv_val is None:
 			dataset_val = None
