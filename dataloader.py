@@ -618,7 +618,7 @@ class RandomRotation(object):
         #v.show()
 
         #print("-------------")
-        if random.random() < 0.35:
+        if random.random() < 0.65:
             #print("rotation", random.random())
             angle = self.get_params(self.degrees)
             new_sample = deepcopy(sample)
@@ -789,7 +789,7 @@ class Blur(object):
 
         if random.random() < self.p:
             new_sample = deepcopy(sample)
-            new_sample['img'] = ndimage.uniform_filter(new_sample['img'], size=(2, 2, .2))
+            new_sample['img'] = ndimage.uniform_filter(new_sample['img'], size=(3, 3, .3))
             #show_images(sample, new_sample)
             return new_sample
         return sample
@@ -858,7 +858,7 @@ class Image_Noise(object):
 
         if random.random() < self.p:
             new_sample = deepcopy(sample)
-            new_sample['img'] = random_noise(new_sample['img'], var=0.00025)
+            new_sample['img'] = random_noise(new_sample['img'], var=0.000375)
             #show_images(sample, new_sample)
             return new_sample
         return sample

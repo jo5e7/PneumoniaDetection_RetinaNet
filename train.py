@@ -44,7 +44,7 @@ def train(csv_train=None, csv_classes=None, csv_val=None, epochs=12, depth=50, b
 			raise ValueError('Must provide --csv_classes when training on COCO,')
 
 
-		dataset_train = CSVDataset(train_file=csv_train, class_list=csv_classes, transform=transforms.Compose([RandomRotation(6),Gamma_Correction(0.35), Image_Noise(0.35), Blur(0.35) , Normalizer(), Augmenter(), Resizer()]))
+		dataset_train = CSVDataset(train_file=csv_train, class_list=csv_classes, transform=transforms.Compose([RandomRotation(6),Gamma_Correction(0.45), Image_Noise(0.45), Blur(0.45) , Normalizer(), Augmenter(), Resizer()]))
 
 		if csv_val is None:
 			dataset_val = None
@@ -203,7 +203,7 @@ print(mypath)
 csv_train = str(mypath) + "/google_cloud/stage_2_train_labels.csv"
 csv_train = str(mypath) + "/google_cloud/synthetic_train_set.csv"
 csv_classes = str(mypath) + "/google_cloud/class_map.csv"
-epochs = 20
+epochs = 100
 depth = 50
 
-train(csv_train, csv_classes, epochs=epochs, depth=depth, batch_size=2)
+train(csv_train, csv_classes, epochs=epochs, depth=depth, batch_size=8)
