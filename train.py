@@ -206,4 +206,4 @@ csv_classes = str(mypath) + "/google_cloud/class_map.csv"
 epochs = 100
 depth = 50
 
-train(csv_train, csv_classes, epochs=epochs, depth=depth, batch_size=8)
+train(csv_train, csv_classes, epochs=epochs, depth=depth, batch_size=12)
